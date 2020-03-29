@@ -34,3 +34,11 @@ def get_portfolio_view(request):
     if request.method == 'GET':
         portfolio_list = Portfolio.objects.all()
         return HttpResponse(serializers.serialize("json", portfolio_list))
+
+    if request.method == 'POST':
+        json = json.loads(request.body)
+
+        portfolio_model = Portfolio(user=User.objects.get(id=json['user']))
+        portfolio_model.save()
+        portfolio = Portfolio.objects.get(id=portfolio_model.id)
+        return HttpResponse(json.dumps({'code':201}), status=201, content_type="application/json")
