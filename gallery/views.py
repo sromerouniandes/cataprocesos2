@@ -27,12 +27,12 @@ def add_user_view(request):
         user_model.last_name = last_name
         user_model.email = email
         user_model.save()
-        return HttpResponse(serializers.serialize("json", [user_model])) 
+        return HttpResponse(serializers.serialize("json", [user_model]))
 
 @csrf_exempt
 def get_portfolio_view(request):
     if request.method == 'GET':
-        portfolio_list = Portfolio.objects.all()
+        portfolio_list = Portfolio.objects.all().filter(public=True)
         return HttpResponse(serializers.serialize("json", portfolio_list))
 
     if request.method == 'POST':
