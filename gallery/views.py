@@ -44,7 +44,6 @@ def get_portfolio_view(request):
         portfolio = Portfolio.objects.get(id=portfolio_model.id)
         return HttpResponse(json.dumps({'code':201}), status=201, content_type="application/json")
 
-    
 @csrf_exempt
 def login_view(request):
     if request.method == 'POST':
@@ -54,4 +53,23 @@ def login_view(request):
             return HttpResponse(json.dumps({'username':user.username,'first_name':user.first_name,'last_name':user.last_name,'email':user.email}), status=200, content_type="application/json")
         else:
             return HttpResponse(json.dumps({'code':401}), status=401, content_type="application/json")
+
+@csrf_exempt
+def user_view(request, pk):
+    if request.method == 'PUT':
+        user=User.objects.get(id=pk)
+        json_user = json.loads(request.body)
+
+        if 'first_name' in json_user:
+            user.first_name =json_user['first_name']
+        if 'last_name' in json_user:
+            user.last_name =json_user['last_name']
+        if 'email' in json_user:
+            user.email =json_user['email']
+
+        user.save()
+        xjson = serializers.serialize("json", [user])
+        return HttpResponse(xjson, status=202, content_type="application/json")
+
+
 

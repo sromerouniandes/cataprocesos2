@@ -21,4 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('gallery/', include('gallery.urls')),
     path('login/', views.login_view, name='login'),
+    path('user/<pk>/', views.user_view, name='user-put'),
 ]
