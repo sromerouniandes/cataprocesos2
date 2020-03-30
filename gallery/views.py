@@ -27,7 +27,7 @@ def add_user_view(request):
         user_model.last_name = last_name
         user_model.email = email
         user_model.save()
-        return HttpResponse(serializers.serialize("json", [user_model]))
+        return HttpResponse(serializers.serialize("json", [user_model])) 
 
 @csrf_exempt
 def get_portfolio_view(request):
