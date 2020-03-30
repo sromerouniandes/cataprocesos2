@@ -40,6 +40,7 @@ class GalleryTestCase(TestCase):
             "password": "AnyPas#5",
             "email": "test@test.com"}), content_type='application/json')
         current_data=json.loads(response.content)
+        print(response.content);
         self.assertEqual(current_data[0]['fields']['username'],'testUser')
 
     def test_list_portfolio(self):
@@ -76,7 +77,16 @@ class GalleryTestCase(TestCase):
         self.assertEqual(len(current_data)>0,True)
    
     def test_edit_user(self):
-        response=self.client.put('/gallery/editUser/',json.dumps(
+        response=self.client.post('/gallery/addUser/',json.dumps(
+            {"username": "testUser",
+            "first_name": "Test",
+            "last_name": "User",
+            "password": "AnyPas#5",
+            "email": "test@test.com"}), content_type='application/json')
+            
+        current_data=json.loads(response.content)
+        Userid = current_data[0]['pk']    
+        response=self.client.put('/user/'+ Userid, json.dumps(
             {"username": "testUser",
             "first_name": "Nombre modificado",
             "last_name": "User",
