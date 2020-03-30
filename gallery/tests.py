@@ -20,7 +20,6 @@ class GalleryTestCase(TestCase):
 
         response=self.client.get('/gallery/')
         current_data=json.loads(response.content)
-        print(current_data)
         self.assertEqual(len(current_data),2)
 
     def test_verify_first_from_images_list(self):
@@ -57,7 +56,6 @@ class GalleryTestCase(TestCase):
         current_data = json.loads(response.content)
         self.assertEqual(len(current_data),2)
 
-
     def test_public_portfolio_attribute(self):
         url = '/gallery/portfolio/'
         user_model = User.objects.create_user(username='test', password='kd8wke-DE34', first_name='test', last_name='test', email='test@test.com')
@@ -65,5 +63,14 @@ class GalleryTestCase(TestCase):
         Portfolio.objects.create(user=user_model, public=False);
 
         response = self.client.get(url, format='json')
+        current_data = json.loads(response.content)
+        self.assertEqual(len(current_data),1)
+
+    def test_login_user(self):
+        url = '/login/'
+        user_model = User.objects.create_user(username='test', password='kd8wke-DE34', first_name='test', last_name='test', email='test@test.com')
+        response = self.client.post(url,json.dumps(
+            {"username": "test",
+            "password": "kd8wke-DE34"}), content_type='application/json')
         current_data = json.loads(response.content)
         self.assertEqual(len(current_data),1)
