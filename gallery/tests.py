@@ -74,3 +74,13 @@ class GalleryTestCase(TestCase):
             "password": "kd8wke-DE34"}), content_type='application/json')
         current_data = json.loads(response.content)
         self.assertEqual(len(current_data)>0,True)
+   
+    def test_edit_user(self):
+        response=self.client.put('/gallery/editUser/',json.dumps(
+            {"username": "testUser",
+            "first_name": "Nombre modificado",
+            "last_name": "User",
+            "password": "AnyPas#5",
+            "email": "test@test.com"}), content_type='application/json')
+        current_data=json.loads(response.content)
+        self.assertEqual(current_data[0]['fields']['first_name'],'Nombre modificado')
