@@ -56,3 +56,14 @@ class GalleryTestCase(TestCase):
         response = self.client.get(url, format='json')
         current_data = json.loads(response.content)
         self.assertEqual(len(current_data),2)
+
+    
+    def test_public_portfolio_attribute(self):
+        url = '/gallery/portfolio/'
+        user_model = User.objects.create_user(username='test', password='kd8wke-DE34', first_name='test', last_name='test', email='test@test.com')
+        Portfolio.objects.create(user=user_model, public=true);
+        Portfolio.objects.create(user=user_model, public=false);
+
+        response = self.client.get(url, format='json')
+        current_data = json.loads(response.content)
+        self.assertEqual(len(current_data),1)
